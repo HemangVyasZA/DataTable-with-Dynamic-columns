@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+<div>
+    <input type="checkbox" id="isDetail" checked="checked" /> Is More Detail Needed
+</div>
+<div>
+    <table id="example"></table>
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var table = "";
+        var apiUrl = "/api/employee?isDetailReequired=";
+
+        $(document).ready(function() {
+            $("#isDetail").change(function() {
+                if(this.checked) {
+                    getEmployeeData(apiUrl + 'true');//get more columns
+                } else {
+                    getEmployeeData(apiUrl + 'false');//with default columns
+                }
+            });
+
+            getEmployeeData(apiUrl + 'true');
+
+        });
+
+        function getEmployeeData(url) {
+            var jqxhr = $.getJSON(url,
+                function (response) {
+
+                    if ($.fn.DataTable.isDataTable('#example')) {
+                        $('#example').DataTable().destroy();
+                        $('#example').empty();
+                    };
+                    table = $('#example').DataTable({
+                        "data": response.data,
+                        "columns": response.columns,
+                        "destroy": true
+                    });
+                })
+                .done(function () {
+                    console.log("Done");
+                })
+                .fail(function () {
+                    console.log("error");
+                });
+        }
+
+    </script>
+}
