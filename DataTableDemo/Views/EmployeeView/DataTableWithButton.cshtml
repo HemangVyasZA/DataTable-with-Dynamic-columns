@@ -1,0 +1,96 @@
+﻿@model object
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<table id="example" class="table-responsive" >
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Date Of Join</th>
+            <th>Salary</th>
+            <th>Is Head</th>
+            <th>EmployeeType</th>
+            <th>Department</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+ 
+</table>
+
+@section Scripts
+{
+    
+    <script type="text/javascript">
+        var table;
+        var url = '/api/employee/all';
+        $(document).ready(function() {
+            $.getJSON(url,function (response) {
+
+                    table = $('#example').DataTable({
+                        "data": response,
+                        "columnDefs": [ 
+                        
+                            {
+                                "targets": 0,
+                                "data": "id"
+                                
+                            },
+                            {
+                                "targets": 1,
+                                "data": "name"
+                            },
+                            {
+                                "targets": 2,
+                                "data": "dateOfJoin"
+                            },
+                            {
+                                "targets": 3,
+                                "data": "salary"
+                            },
+                            {
+                                "targets": 4,
+                                "data": "isHod"
+                            },
+                            {
+                                "targets": 5,
+                                "data": "employeeType"
+                            },
+                            {
+                                "targets": 6,
+                                "data": "department"
+                            },
+                            {
+                                "targets" : 7,
+                                "data": "id",
+                                "render": function(data,type,row,meta) {
+                                    console.log(data);
+                                    console.log(type);
+                                    console.log(row);
+                                    console.log(meta);
+                                    var editLink = "<a href='/EmployeeView/Edit/" + data + "'>Edit</a>";
+                                    return editLink;
+                                }
+                            }
+                       ]
+                    });
+               })
+                .done(function () {
+                    console.log("Done");
+                })
+                .fail(function () {
+                    console.log("error");
+                });
+
+            $('#example tbody').on( 'click', 'button', function () {
+                var data = table.row( $(this).parents('tr') ).data();
+                alert( data[1] +"'s salary is: "+ data[ 5 ] );
+            } );
+        } );
+
+
+    </script>
+}

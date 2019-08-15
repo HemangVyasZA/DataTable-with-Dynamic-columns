@@ -1,6 +1,4 @@
-using System;
-
-namespace WebApplication2.Models
+namespace DataTableDemo.Models
 {
     public class ErrorViewModel
     {

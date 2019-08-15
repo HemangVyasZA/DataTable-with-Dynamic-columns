@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+using DataTableDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApplication2.Controllers
+namespace DataTableDemo.Controllers
 {
     public class ReturnData
     {
@@ -21,6 +21,11 @@ namespace WebApplication2.Controllers
             return isDetailReequired ? GetEmployeesWithExtraDetails() : GetEmployeesWithBasicDetails();
         }
 
+        [HttpGet("all")]
+        public ActionResult<List<EmployeeVm>> GetAllEmployees()
+        {
+            return ControllerUtility.GetEmployee();
+        }
         private ActionResult<dynamic> GetEmployeesWithBasicDetails()
         {
             //your data
